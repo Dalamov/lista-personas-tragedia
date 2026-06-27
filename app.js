@@ -45,10 +45,6 @@ const HOSPITAL_HEADER_PATTERNS = [
 ];
 
 function loadPeople() {
-  if (!UPLOAD_ENABLED) {
-    state.people = [];
-    return;
-  }
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     state.people = saved ? JSON.parse(saved) : [];
@@ -68,11 +64,6 @@ async function loadSeedData() {
     const seed = await response.json();
     if (!Array.isArray(seed) || !seed.length) return;
 
-    if (!UPLOAD_ENABLED) {
-      state.people = seed;
-      return;
-    }
-
     const map = new Map();
     for (const person of seed) {
       const key = normalizeText(person.name);
@@ -81,9 +72,10 @@ async function loadSeedData() {
     for (const person of state.people) {
       const key = normalizeText(person.name);
       if (!map.has(key)) map.set(key, person);
+      else if (!map.get(key).hospital && person.hospital) map.set(key, person);
     }
     state.people = Array.from(map.values());
-    savePeople();
+    if (UPLOAD_ENABLED) savePeople();
   } catch (err) {
     console.warn('No se pudo cargar registro base:', err);
   }
