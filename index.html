@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Personas Tragedia de La Guaira</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>Registro de Personas Tragedia de La Guaira</h1>
+      <p class="subtitle">Estos nombres han sido extraídos de fotos de listas escritas a mano o digitales de diferentes hospitales de La Guaira y Caracas.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="setupBanner" class="setup-banner hidden" role="alert"></div>
+
+    <section class="card upload-section">
+      <div class="section-header">
+        <h2>Subir listas</h2>
+        <span id="modeBadge" class="mode-badge mode-badge-local">Comprobando...</span>
+      </div>
+
+      <div class="form-row">
+        <label for="hospital">Hospital o ubicación</label>
+        <input type="text" id="hospital" placeholder="Ej: Hospital Domingo Luciani">
+        <p class="field-hint">Si lo escribe aquí, se usará para <strong>toda esta subida</strong>. Si lo deja vacío, se detectará desde la imagen o el texto.</p>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf" multiple hidden>
+        <div class="dropzone-content">
+          <span class="dropzone-icon">📷</span>
+          <p><strong>Arrastre fotos o PDF aquí</strong> o haga clic para seleccionar</p>
+          <p class="hint">Acepta JPG, PNG, WebP y PDF. Varios archivos se procesan juntos.</p>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>o pegue una lista escrita</span></div>
+
+      <div class="form-row">
+        <label for="textListInput">Lista de nombres</label>
+        <textarea id="textListInput" rows="6" placeholder="Un nombre por línea. Ej:&#10;1 Orozco Yusbelis&#10;María González"></textarea>
+      </div>
+      <button type="button" class="btn btn-secondary" id="parseTextListBtn">Procesar lista escrita</button>
+
+      <div id="previewArea" class="preview-area hidden"></div>
+
+      <div id="progressArea" class="progress-area hidden">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <p id="progressText">Procesando...</p>
+      </div>
+
+      <div id="reviewArea" class="review-area hidden">
+        <h3>Revise los nombres detectados</h3>
+        <p class="hint">Corrija o elimine nombres incorrectos antes de agregarlos.</p>
+        <div id="reviewList" class="review-list"></div>
+        <button type="button" class="btn btn-secondary btn-sm" id="addNameFieldBtn">+ Agregar otro nombre</button>
+        <div class="review-actions">
+          <button type="button" class="btn btn-secondary" id="skipBtn">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="addBtn">Agregar al registro</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card search-section">
+      <div class="search-header">
+        <h2>Buscar en el registro</h2>
+        <span class="count-badge" id="totalCount">0 personas</span>
+      </div>
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Buscar por nombre o apellido..." autocomplete="off">
+        <button type="button" class="btn btn-icon" id="clearSearch" title="Limpiar">✕</button>
+      </div>
+      <div class="toolbar">
+        <button type="button" class="btn btn-secondary btn-sm" id="exportBtn">Exportar lista</button>
+        <button type="button" class="btn btn-danger btn-sm" id="clearAllBtn">Vaciar registro</button>
+      </div>
+    </section>
+
+    <section class="card results-section">
+      <div id="resultsList" class="results-list">
+        <p class="empty-state">Cargando registro...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Registro público de consulta. Los datos provienen de listas recopiladas de hospitales de La Guaira y Caracas.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
