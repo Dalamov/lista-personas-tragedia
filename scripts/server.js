@@ -1,8 +1,8 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const express = require('express');
 const rateLimit = require('express-rate-limit');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -103,7 +103,7 @@ const limiter = rateLimit({
 });
 
 app.use(express.json({ limit: '14mb' }));
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '..')));
 
 app.get('/api/health', (_req, res) => {
   res.json({
@@ -128,11 +128,7 @@ app.post('/api/extract-names', limiter, async (req, res) => {
   }
 });
 
-if (process.env.VERCEL) {
-  module.exports = app;
-} else {
-  app.listen(PORT, () => {
-    const aiStatus = process.env.OPENAI_API_KEY ? 'IA activa' : 'sin IA';
-    console.log(`Servidor en http://localhost:${PORT} — ${aiStatus}`);
-  });
-}
+app.listen(PORT, () => {
+  const aiStatus = process.env.OPENAI_API_KEY ? 'IA activa' : 'sin IA';
+  console.log(`Servidor en http://localhost:${PORT} — ${aiStatus}`);
+});
