@@ -128,7 +128,11 @@ app.post('/api/extract-names', limiter, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  const aiStatus = process.env.OPENAI_API_KEY ? 'IA activa' : 'sin IA';
-  console.log(`Servidor en http://localhost:${PORT} — ${aiStatus}`);
-});
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  app.listen(PORT, () => {
+    const aiStatus = process.env.OPENAI_API_KEY ? 'IA activa' : 'sin IA';
+    console.log(`Servidor en http://localhost:${PORT} — ${aiStatus}`);
+  });
+}
