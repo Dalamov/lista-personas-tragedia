@@ -103,7 +103,7 @@ const limiter = rateLimit({
 });
 
 app.use(express.json({ limit: '14mb' }));
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/api/health', (_req, res) => {
   res.json({
